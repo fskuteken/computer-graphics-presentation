@@ -3,9 +3,14 @@
   "version": "1.0.0",
   "description": "Computer Graphics presentation",
   "main": "index.js",
-  "scripts": {
-  },
-  "keywords": ["computer graphics", "webgl"],
+  "scripts": {},
+  "keywords": [
+    "computer graphics",
+    "webgl"
+  ],
   "author": "Fernando Kuteken",
-  "private": true
+  "private": true,
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
