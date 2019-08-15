@@ -1,0 +1,11 @@
+{
+  "name": "computer-graphics-presentation",
+  "version": "1.0.0",
+  "description": "Computer Graphics presentation",
+  "main": "index.js",
+  "scripts": {
+  },
+  "keywords": ["computer graphics", "webgl"],
+  "author": "Fernando Kuteken",
+  "private": true
+}
