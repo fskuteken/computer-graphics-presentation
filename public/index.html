@@ -7,11 +7,42 @@
   <body>
     <div class="container">
       <iframe id="iframe" class="slide"></iframe>
+      <div class="controls">
+        <button id="button-previous">Previous</button>
+        <button id="button-next">Next</button>
+      </div>
     </div>
     <script>
-      const iframe = document.getElementById('iframe')
+      const slides = [
+        '1',
+        '2',
+        '3',
+      ]
 
-      iframe.src = '/slides/1.html'
+      window.onload = function (e) {
+        const iframe = document.getElementById('iframe')
+        const buttonPrevious = document.getElementById('button-previous')
+        const buttonNext = document.getElementById('button-next')
+
+        const slideUrl = (slide) => `/slides/${slide}.html`
+        let currentSlide = 0
+
+        buttonPrevious.onclick = function (e) {
+          if (currentSlide > 0) {
+            currentSlide--
+            iframe.src = slideUrl(slides[currentSlide])
+          }
+        }
+
+        buttonNext.onclick = function (e) {
+          if (currentSlide < slides.length - 1) {
+            currentSlide++
+            iframe.src = slideUrl(slides[currentSlide])
+          }
+        }
+
+        iframe.src = slideUrl(slides[currentSlide])
+      }
     </script>
   </body>
 </html>
