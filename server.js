@@ -7,8 +7,8 @@ const port = process.env.PORT || 3000
 
 const app = express()
 
-app.engine('handlebars', exphbs())
-app.set('view engine', 'handlebars')
+app.engine('hbs', exphbs({ extname: 'hbs' }))
+app.set('view engine', 'hbs')
 
 app.get('/slides', (req, res, next) => {
   const slidesPath = path.join(__dirname, 'views', 'slides')
@@ -17,7 +17,7 @@ app.get('/slides', (req, res, next) => {
     if (err) {
       next(err)
     } else {
-      res.json(files.map(file => file.replace('.handlebars', '')))
+      res.json(files.map(file => path.parse(file).name))
     }
   })
 })
