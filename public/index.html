@@ -13,36 +13,31 @@
       </div>
     </div>
     <script>
-      const slides = [
-        '0',
-        '1',
-        '2',
-        '3',
-      ]
-
       window.onload = function (e) {
-        const iframe = document.getElementById('iframe')
-        const buttonPrevious = document.getElementById('button-previous')
-        const buttonNext = document.getElementById('button-next')
+        fetch('/slides').then(res => res.json()).then(slides => {
+          const iframe = document.getElementById('iframe')
+          const buttonPrevious = document.getElementById('button-previous')
+          const buttonNext = document.getElementById('button-next')
 
-        const slideUrl = (slide) => `/slides/${slide}.html`
-        let currentSlide = 0
+          const slideUrl = (slide) => `/slides/${slide}`
+          let currentSlide = 0
 
-        buttonPrevious.onclick = function (e) {
-          if (currentSlide > 0) {
-            currentSlide--
-            iframe.src = slideUrl(slides[currentSlide])
+          buttonPrevious.onclick = function (e) {
+            if (currentSlide > 0) {
+              currentSlide--
+              iframe.src = slideUrl(slides[currentSlide])
+            }
           }
-        }
 
-        buttonNext.onclick = function (e) {
-          if (currentSlide < slides.length - 1) {
-            currentSlide++
-            iframe.src = slideUrl(slides[currentSlide])
+          buttonNext.onclick = function (e) {
+            if (currentSlide < slides.length - 1) {
+              currentSlide++
+              iframe.src = slideUrl(slides[currentSlide])
+            }
           }
-        }
 
-        iframe.src = slideUrl(slides[currentSlide])
+          iframe.src = slideUrl(slides[currentSlide])
+        });
       }
     </script>
   </body>
