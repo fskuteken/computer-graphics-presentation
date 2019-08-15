@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "Computer Graphics presentation",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "start": "node server.js"
+  },
   "keywords": [
     "computer graphics",
     "webgl"
