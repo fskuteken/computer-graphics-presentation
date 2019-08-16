@@ -20,9 +20,7 @@ app.get('/slides', (req, res, next) => {
 })
 
 app.get('/slides/:slideNumber', (req, res) => {
-  const number = Number(req.params.slideNumber)
-
-  res.render(`slides/${slides()[number]}`, { layout: 'slide' })
+  res.render(`slides/${slides()[req.params.slideNumber]}`, { layout: 'slide' })
 })
 
 app.use(express.static('public'))
