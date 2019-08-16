@@ -19,35 +19,30 @@
           const buttonPrevious = document.getElementById('button-previous')
           const buttonNext = document.getElementById('button-next')
 
-          const slideUrl = (slide) => `/slides/${slide}`
           let currentSlide = 0
 
           if (window.location.hash) {
-            const index = slides.indexOf(window.location.hash.substring(1))
-
-            if (index > 0) {
-              currentSlide = index
-            }
+            currentSlide = window.location.hash.substring(1)
           }
 
           buttonPrevious.onclick = function (e) {
             if (currentSlide > 0) {
               currentSlide--
-              iframe.src = slideUrl(slides[currentSlide])
-              window.location.hash = slides[currentSlide]
+              iframe.src = `/slides/${currentSlide}`
+              window.location.hash = currentSlide
             }
           }
 
           buttonNext.onclick = function (e) {
             if (currentSlide < slides.length - 1) {
               currentSlide++
-              iframe.src = slideUrl(slides[currentSlide])
-              window.location.hash = slides[currentSlide]
+              iframe.src = `/slides/${currentSlide}`
+              window.location.hash = currentSlide
             }
           }
 
-          iframe.src = slideUrl(slides[currentSlide])
-          window.location.hash = slides[currentSlide]
+          iframe.src = `/slides/${currentSlide}`
+          window.location.hash = currentSlide
         });
       }
     </script>
