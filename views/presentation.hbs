@@ -26,11 +26,7 @@
   }
 
   function initialize (e) {
-    if (window.location.hash) {
-      setSlide(Number(window.location.hash.substring(1)))
-    } else {
-      setSlide(0)
-    }
+    setSlide(location.hash ? Number(location.hash.substring(1)) : 0)
 
     buttonPrevious.onclick = () => setSlide(currentSlide - 1)
     buttonNext.onclick = () => setSlide(currentSlide + 1)
