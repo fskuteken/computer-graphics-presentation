@@ -25,6 +25,10 @@ a {
   text-decoration: none;
 }
 
+a:hover {
+  text-decoration: underline;
+}
+
 .container {
   background-color: #eee;
   box-sizing: border-box;
