@@ -30,6 +30,7 @@
 
     buttonPrevious.onclick = () => setSlide(currentSlide - 1)
     buttonNext.onclick = () => setSlide(currentSlide + 1)
+    window.onhashchange = () => setSlide(location.hash ? Number(location.hash.substring(1)) : 0)
   }
 
   function setSlide (slide) {
