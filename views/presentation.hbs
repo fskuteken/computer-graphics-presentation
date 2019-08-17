@@ -8,36 +8,39 @@
 </div>
 
 <script>
-  window.onload = function (e) {
-    fetch('/slides').then(res => res.json()).then(slides => {
-      const iframe = document.getElementById('iframe')
-      const buttonPrevious = document.getElementById('button-previous')
-      const buttonNext = document.getElementById('button-next')
+  let buttonPrevious
+  let buttonNext
+  let slides
+  let currentSlide
+  let iframe
 
-      let currentSlide = 0
+  function onLoad (e) {
+    buttonPrevious = document.getElementById('button-previous')
+    buttonNext = document.getElementById('button-next')
+    iframe = document.getElementById('iframe')
 
-      if (window.location.hash) {
-        currentSlide = window.location.hash.substring(1)
-      }
-
-      buttonPrevious.onclick = function (e) {
-        if (currentSlide > 0) {
-          currentSlide--
-          iframe.src = `/slides/${currentSlide}`
-          window.location.hash = currentSlide
-        }
-      }
-
-      buttonNext.onclick = function (e) {
-        if (currentSlide < slides.length - 1) {
-          currentSlide++
-          iframe.src = `/slides/${currentSlide}`
-          window.location.hash = currentSlide
-        }
-      }
-
-      iframe.src = `/slides/${currentSlide}`
-      window.location.hash = currentSlide
+    fetch('/slides').then(res => res.json()).then(result => {
+      slides = result
+      initialize()
     });
   }
+
+  function initialize (e) {
+    if (window.location.hash) {
+      setSlide(Number(window.location.hash.substring(1)))
+    } else {
+      setSlide(0)
+    }
+
+    buttonPrevious.onclick = () => setSlide(currentSlide - 1)
+    buttonNext.onclick = () => setSlide(currentSlide + 1)
+  }
+
+  function setSlide (slide) {
+    currentSlide = Math.min(Math.max(0, slide), slides.length - 1)
+    iframe.src = `/slides/${currentSlide}`
+    window.location.hash = currentSlide
+  }
+
+  window.onload = onLoad
 </script>
