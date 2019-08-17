@@ -1,0 +1,27 @@
+<h1>Working with WebGL</h1>
+
+<p>
+  In order to check whether WebGL is working, we can clear the canvas.
+</p>
+
+<div class="row">
+  <div class="col-70">
+    <pre><code class="javascript">
+// clearColor(r, g, b, a)
+
+gl.clearColor(0, 1, 1, 1)
+gl.clear(gl.COLOR_BUFFET_BIT)
+    </code></pre>
+  </div>
+  <div class="col-30">
+    <canvas id="canvas" style="width: 100%; height: 100%;"></canvas>
+  </div>
+</div>
+
+<script>
+let canvas = document.getElementById('canvas')
+let gl = canvas.getContext('webgl')
+gl.clearColor(0, 1, 1, 1)
+gl.clear(gl.COLOR_BUFFER_BIT)
+</script>
+
