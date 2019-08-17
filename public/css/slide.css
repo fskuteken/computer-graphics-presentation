@@ -20,6 +20,11 @@ code {
   font-size: 2rem;
 }
 
+a {
+  color: #007bff;
+  text-decoration: none;
+}
+
 .container {
   background-color: #eee;
   box-sizing: border-box;
