@@ -6,18 +6,19 @@ html, body {
 body {
   margin: 0;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 4vmin;
 }
 
-h1, p {
+h1, h2, h3, h4, h5, h6, p {
   text-align: center;
 }
 
-p {
-  font-size: 1.5rem;
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
 }
 
-code {
-  font-size: 2rem;
+p {
+  font-size: 4vmin;
 }
 
 a {
@@ -32,11 +33,12 @@ a:hover {
 .container {
   background-color: #eee;
   box-sizing: border-box;
-  padding: 30pt;
-  width: 100%;
-  height: 100%;
+  padding: 10vh 10vh;
+  margin: auto;
+  max-width: 177vh;
+  height: 100vh;
 }
 
 .math {
-  font-size: 3rem;
+  font-size: 5vmin;
 }
