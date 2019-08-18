@@ -1,0 +1,83 @@
+<h1>WebGL Coordinate System</h1>
+
+<div class="display-grid">
+  <div class="grid-50-50">
+    <div class="text-right">
+      <div>
+        <label>$x$</label>
+        <input id="x-input" type="number" value="0" step="0.1" />
+      </div>
+      <div>
+        <label>$y$</label>
+        <input id="y-input" type="number" value="0" step="0.1" />
+      </div>
+      <div>
+        <label>$z$</label>
+        <input id="z-input" type="number" value="0" step="0.1" />
+      </div>
+    </div>
+    <div class="text-left">
+      <canvas id="canvas" width="400" height="400" style="display: inline;"></canvas>
+    </div>
+  </div>
+</div>
+
+<script id="vertex-shader" type="x-shader/x-vertex">
+  uniform vec3 position;
+
+  void main() {
+    gl_Position = vec4(position, 1.0);
+    gl_PointSize = 20.0;
+  }
+</script>
+<script id="fragment-shader" type="x-shader/x-fragment">
+  precision mediump float;
+
+  void main() {
+    gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+  }
+</script>
+<script>
+  const xInput = document.getElementById('x-input')
+  const yInput = document.getElementById('y-input')
+  const zInput = document.getElementById('z-input')
+
+  const canvas = document.getElementById('canvas')
+  const gl = canvas.getContext('webgl')
+  const program = gl.createProgram()
+  const vertexShader = gl.createShader(gl.VERTEX_SHADER)
+  const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER)
+
+  canvas.width = canvas.clientWidth
+  canvas.height = canvas.clientHeight
+  gl.viewport(0, 0, canvas.width, canvas.height)
+  gl.shaderSource(vertexShader, document.getElementById('vertex-shader').text)
+  gl.shaderSource(fragmentShader, document.getElementById('fragment-shader').text)
+  gl.compileShader(vertexShader)
+  gl.compileShader(fragmentShader)
+  gl.attachShader(program, vertexShader)
+  gl.attachShader(program, fragmentShader)
+  gl.linkProgram(program)
+  gl.useProgram(program)
+
+  const positionLocation = gl.getUniformLocation(program, 'position')
+
+  const position = new Float32Array([0, 0, 0])
+
+  function render() {
+    gl.clear(gl.COLOR_BUFFER_BIT)
+
+    position[0] = Number(xInput.value)
+    position[1] = Number(yInput.value)
+    position[2] = Number(zInput.value)
+
+    gl.uniform3fv(positionLocation, position)
+
+    gl.drawArrays(gl.POINTS, 0, 1)
+
+    window.requestAnimationFrame(render)
+  }
+
+  render()
+
+</script>
