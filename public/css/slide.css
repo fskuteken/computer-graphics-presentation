@@ -7,7 +7,7 @@ body {
   margin: 0;
   color: #333333;
   font-family: 'Open Sans';
-  font-size: 3.5vmin;
+  font-size: 20pt;
 }
 
 h1, p {
@@ -19,7 +19,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 p {
-  font-size: 4vmin;
+  font-size: 2rem;
   line-height: 1.5;
 }
 
@@ -55,7 +55,7 @@ a:hover {
 }
 
 .math {
-  font-size: 5vmin;
+  font-size: 2.5rem;
 }
 
 .flex-container {
