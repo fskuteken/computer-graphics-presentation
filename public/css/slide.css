@@ -20,6 +20,7 @@ h1, h2, h3, h4, h5, h6 {
 
 p {
   font-size: 4vmin;
+  line-height: 1.5;
 }
 
 a {
@@ -34,6 +35,10 @@ canvas {
   margin: 0 auto;
   max-width: 100%;
   min-height: 100%;
+}
+
+td {
+  text-align: center;
 }
 
 a:hover {
