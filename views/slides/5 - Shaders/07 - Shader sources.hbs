@@ -1,0 +1,16 @@
+<h1>Shader sources</h1>
+
+<p>Shader sources are plain strings in JavaScript.</p>
+
+<pre><code class="html">&lt;script id="vertex-shader" type="x-shader/x-vertex"&gt;
+void main () {
+  gl_Position = vec4(0.0, 0.0, 0.0, 1.0);
+  gl_PointSize = 10.0;
+}
+&lt;/script&gt;
+&lt;script id="fragment-shader" type="x-shader/x-fragment"&gt;
+  precision mediump float;
+  void main () {
+    gl_FragColor = vec4(0.0, 0.0, 1.0, 1.0);
+  }
+&lt;/script&gt;</code></pre>

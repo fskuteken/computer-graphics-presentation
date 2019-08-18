@@ -1,0 +1,14 @@
+<h1>Linking programs</h1>
+
+<p>If the shaders compiled successfully, we can attach them to our program.</p>
+
+<pre>
+  <code class="javascript">
+    gl.attachShader(program, vertexShader)
+    gl.attachShader(program, fragmentShader)
+
+    gl.linkProgram(program)
+
+    gl.useProgram(program)
+  </code>
+</pre>

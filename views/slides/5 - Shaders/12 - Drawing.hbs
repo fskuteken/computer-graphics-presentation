@@ -1,0 +1,53 @@
+<h1>Drawing</h1>
+
+<div class="display-grid">
+  <div class="grid-70-30">
+    <div>
+      <pre>
+        <code class="javascript">
+gl.viewport(0, 0, canvas.width, canvas.height)
+
+gl.drawArrays(gl.POINTS, 0, 1)
+        </code>
+      </pre>
+    </div>
+    <div>
+      <canvas id="canvas"></canvas>
+    </div>
+  </div>
+</div>
+
+<script id="vertex-shader" type="x-shader/x-vertex">
+  void main() {
+    gl_Position = vec4(0.0, 0.0, 0.0, 1.0);
+    gl_PointSize = 10.0;
+  }
+</script>
+<script id="fragment-shader" type="x-shader/x-fragment">
+  precision mediump float;
+
+  void main() {
+    gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+  }
+</script>
+<script>
+  const canvas = document.getElementById('canvas')
+  const gl = canvas.getContext('webgl')
+  const program = gl.createProgram()
+  const vertexShader = gl.createShader(gl.VERTEX_SHADER)
+  const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER)
+
+  canvas.width = canvas.clientWidth
+  canvas.height = canvas.clientHeight
+  gl.viewport(0, 0, canvas.width, canvas.height)
+  gl.shaderSource(vertexShader, document.getElementById('vertex-shader').text)
+  gl.shaderSource(fragmentShader, document.getElementById('fragment-shader').text)
+  gl.compileShader(vertexShader)
+  gl.compileShader(fragmentShader)
+  gl.attachShader(program, vertexShader)
+  gl.attachShader(program, fragmentShader)
+  gl.linkProgram(program)
+  gl.useProgram(program)
+
+  gl.drawArrays(gl.POINTS, 0, 1)
+</script>

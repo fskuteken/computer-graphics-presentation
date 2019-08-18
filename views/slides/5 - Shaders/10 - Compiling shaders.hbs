@@ -1,0 +1,17 @@
+<h1>Compiling shaders</h1>
+
+<pre>
+  <code class="javascript">
+  const vertexShaderSource =
+    document.getElementById('vertex-shader').text
+
+  const fragmentShaderSource =
+    document.getElementById('fragment-shader').text
+
+  gl.shaderSource(vertexShader, vertexShaderSource)
+  gl.compileShader(vertexShader)
+
+  gl.shaderSource(fragmentShader, fragmentShaderSource)
+  gl.compileShader(fragmentShader)
+  </code>
+</pre>

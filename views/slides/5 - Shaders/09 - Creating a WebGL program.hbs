@@ -1,0 +1,12 @@
+<h1>Creating a WebGL program</h1>
+
+<pre>
+  <code class="javascript">
+  const canvas = document.getElementById('canvas')
+  const gl = canvas.getContext('webgl')
+
+  const program = gl.createProgram()
+  const vertexShader = gl.createShader(gl.VERTEX_SHADER)
+  const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER)
+  </code>
+</pre>
