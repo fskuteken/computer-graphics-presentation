@@ -10,7 +10,7 @@ body {
   font-size: 4vmin;
 }
 
-h1, h2, h3, h4, h5, h6, p {
+h1, p {
   text-align: center;
 }
 
@@ -25,6 +25,15 @@ p {
 a {
   color: #007bff;
   text-decoration: none;
+}
+
+canvas {
+  display: block;
+  background-color: #eeeeee;
+  box-sizing: border-box;
+  margin: 0 auto;
+  max-width: 100%;
+  min-height: 100%;
 }
 
 a:hover {
@@ -44,22 +53,19 @@ a:hover {
   font-size: 5vmin;
 }
 
-.row {
+.flex-container {
   display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
-.col-10, .col-20, .col-30, .col-40, .col-50, .col-60, .col-70, .col-80, .col-90, .col-100 {
+.flex-item {
   flex: 1;
-  padding: 1vmin;
 }
 
-.col-10 { width: 10%; }
-.col-20 { width: 20%; }
-.col-30 { width: 30%; }
-.col-40 { width: 40%; }
-.col-50 { width: 50%; }
-.col-60 { width: 60%; }
-.col-70 { width: 70%; }
-.col-80 { width: 80%; }
-.col-90 { width: 90%; }
-.col-100 { width: 100%; }
+.grid-70-30 {
+  display: grid;
+  grid-template-columns: 70% 30%;
+  grid-gap: 3vmin;
+  height: 100%;
+}
