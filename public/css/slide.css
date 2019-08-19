@@ -88,7 +88,6 @@ a:hover {
   display: grid;
   grid-template-columns: 50% 50%;
   grid-gap: 3vmin;
-  height: 100%;
 }
 
 .display-table {
