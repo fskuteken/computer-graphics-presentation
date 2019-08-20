@@ -1,0 +1,17 @@
+<h1>Buffers</h1>
+
+<p>We can use buffers to store data in the GPU.</p>
+
+<pre>
+  <code class="javascript">
+  const vertices = new Float32Array([
+    0, 0, 0,
+    1, 0, 0,
+    0, 1, 0
+  ])
+
+  const buffer = gl.createBuffer(gl.ARRAY_BUFFER)
+  gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
+  gl.bufferData(buffer, vertices, gl.STATIC_DRAW)
+  </code>
+</pre>

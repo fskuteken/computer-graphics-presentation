@@ -1,0 +1,15 @@
+<h1>Populating uniforms</h1>
+
+<p>
+  There are several methods to populate uniforms.
+</p>
+
+<pre>
+  <code class="javascript">
+  const colorLocation = gl.getUniformLocation(program, 'color')
+
+  gl.uniform4f(colorLocation, 1, 0, 0, 1)
+
+  gl.uniform4fv(colorLocation, new Float32Array([1, 0, 0, 1]))
+  </code>
+</pre>

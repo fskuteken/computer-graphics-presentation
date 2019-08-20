@@ -1,0 +1,15 @@
+<h1>Populating attributes</h1>
+
+<p>
+  Once we create a buffer, we can use it to supply data to a shader attribute.
+</p>
+
+<pre>
+  <code class="javascript">
+  const positionLocation = gl.getAttribLocation(program, 'position')
+
+  gl.enableVertexAttribArray(positionLocation)
+
+  gl.vertexAttribPointer(positionLocation, 3, gl.FLOAT, gl.FALSE, 24, 0)
+  </code>
+</pre>
