@@ -42,8 +42,6 @@ canvas {
   background-color: #eeeeee;
   box-sizing: border-box;
   margin: 0 auto;
-  max-width: 100%;
-  min-height: 100%;
 }
 
 td {
@@ -114,4 +112,9 @@ a:hover {
 
 .text-center {
   text-align: center;
+}
+
+canvas.fill {
+  max-width: 100%;
+  min-height: 100%;
 }
