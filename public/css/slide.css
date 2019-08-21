@@ -52,6 +52,10 @@ a:hover {
   text-decoration: underline;
 }
 
+pre {
+  margin: 0;
+}
+
 .container {
   background-color: transparent;
   box-sizing: border-box;
