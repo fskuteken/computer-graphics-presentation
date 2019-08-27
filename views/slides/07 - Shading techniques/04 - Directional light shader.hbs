@@ -1,0 +1,34 @@
+<h1>Directional Light shader</h1>
+
+<pre>
+  <code class="glsl">
+  uniform mat4 transform;
+  attribute vec4 position;
+  attribute vec3 normal;
+  varying vec3 vNormal;
+
+  void main() {
+    gl_Position = transform * position;
+    vNormal = normal;
+  }
+  </code>
+</pre>
+
+<pre>
+  <code class="glsl">
+  precision mediump float;
+
+  uniform vec3 color;
+  varying vec3 vNormal;
+
+  void main() {
+    vec3 lightDirection = normalize(vec3(0.3, 1.0, 0.5));
+
+    vec3 normal = normalize(vNormal);
+
+    float angle = dot(lightDirection, normal);
+
+    gl_FragColor = vec4(color * angle, 1.0);
+  }
+  </code>
+</pre>

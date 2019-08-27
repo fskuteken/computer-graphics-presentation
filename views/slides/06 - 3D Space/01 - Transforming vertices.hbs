@@ -1,0 +1,17 @@
+<h1>Transforming vertices</h1>
+
+<p>
+  We can use 4x4 matrices to transform the vertices before rendering them.
+</p>
+
+<pre>
+<code class="glsl">
+attribute vec4 position;
+uniform mat4 transform;
+
+void main() {
+  gl_Position = transform * position;
+}
+
+</code>
+</pre>

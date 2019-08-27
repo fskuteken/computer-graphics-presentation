@@ -1,0 +1,150 @@
+<h1>Ambient + Directional Light Example</h1>
+
+<canvas id="canvas" width="800" height="600"></canvas>
+
+<script id="vertex-shader" type="x-shader/x-vertex">
+  uniform mat4 transform;
+  attribute vec4 position;
+  attribute vec3 normal;
+  varying vec3 vNormal;
+
+  void main() {
+    gl_Position = transform * position;
+    vNormal = normal;
+  }
+</script>
+
+<script id="fragment-shader" type="x-shader/x-fragment">
+  precision mediump float;
+
+  uniform vec3 color;
+  varying vec3 vNormal;
+
+  void main() {
+    vec3 lightDirection = normalize(vec3(0.3, 1.0, 0.5));
+
+    vec3 normal = normalize(vNormal);
+
+    float light = 0.5 + 0.5 * dot(lightDirection, normal);
+
+    gl_FragColor = vec4(light * color, 1.0);
+  }
+</script>
+
+<script>
+  const { vec3, mat4 } = glMatrix
+  const canvas = document.getElementById('canvas')
+  const gl = canvas.getContext('webgl')
+
+  const vertexShaderSource = document.getElementById('vertex-shader').text
+  const fragmentShaderSource = document.getElementById('fragment-shader').text
+
+  // Creating the program
+  const program = gl.createProgram()
+  const vertexShader = gl.createShader(gl.VERTEX_SHADER)
+  const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER)
+
+  gl.shaderSource(vertexShader, vertexShaderSource)
+  gl.shaderSource(fragmentShader, fragmentShaderSource)
+  gl.compileShader(vertexShader)
+  gl.compileShader(fragmentShader)
+  gl.attachShader(program, vertexShader)
+  gl.attachShader(program, fragmentShader)
+  gl.linkProgram(program)
+  gl.useProgram(program)
+
+  // Setting the attribute
+  const positionLocation = gl.getAttribLocation(program, 'position')
+  const normalLocation = gl.getAttribLocation(program, 'normal')
+
+  const a = vec3.fromValues(-1, -1, 1)
+  const b = vec3.fromValues(1, -1, 1)
+  const c = vec3.fromValues(-1, -1, -1)
+  const d = vec3.fromValues(1, -1, -1)
+  const e = vec3.fromValues(-1, 1, 1)
+  const f = vec3.fromValues(1, 1, 1)
+  const g = vec3.fromValues(-1, 1, -1)
+  const h = vec3.fromValues(1, 1, -1)
+
+  const up = vec3.fromValues(0, 1, 0)
+  const down = vec3.fromValues(0, -1, 0)
+  const left = vec3.fromValues(-1, 0, 0)
+  const right = vec3.fromValues(1, 0, 0)
+  const forward = vec3.fromValues(0, 0, -1)
+  const backward = vec3.fromValues(0, 0, 1)
+
+  const vertices = [
+    b, down, a, down, c, down, // bottom
+    b, down, c, down, d, down, // bottom
+    e, up, f, up, g, up, // top
+    g, up, f, up, h, up, // top
+    a, left, e, left, c, left, // left
+    c, left, e, left, g, left, // left
+    b, right, d, right, h, right, // right
+    b, right, h, right, f, right, // right
+    a, backward, b, backward, f, backward, // front
+    a, backward, f, backward, e, backward, // front
+    d, forward, c, forward, g, forward, // back
+    d, forward, g, forward, h, forward, // back
+  ]
+
+  const verticesData = []
+
+  vertices.forEach(vertex => {
+    verticesData.push(vertex[0], vertex[1], vertex[2])
+  })
+
+  const buffer = gl.createBuffer()
+  const data = new Float32Array(verticesData)
+  gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
+  gl.bufferData(gl.ARRAY_BUFFER, data, gl.STATIC_DRAW)
+  gl.enableVertexAttribArray(positionLocation)
+  gl.enableVertexAttribArray(normalLocation)
+  gl.vertexAttribPointer(positionLocation, 3, gl.FLOAT, gl.FALSE, 24, 0)
+  gl.vertexAttribPointer(normalLocation, 3, gl.FLOAT, gl.FALSE, 24, 12)
+
+  // Settings the uniform
+  const transformLocation = gl.getUniformLocation(program, 'transform')
+  const colorLocation = gl.getUniformLocation(program, 'color')
+
+  const transform = mat4.create()
+
+  const model = mat4.create()
+  const view = mat4.create()
+  const projection = mat4.create()
+
+  const eye = vec3.fromValues(4, 4, 4)
+  const center = vec3.fromValues(0, 0, 0)
+
+  gl.enable(gl.DEPTH_TEST)
+
+  let angle = 0
+  let lastUpdate = Date.now();
+
+  // Rendering
+  function render() {
+    let now = Date.now()
+    let dt = now - lastUpdate
+    lastUpdate = now
+    angle += 0.3 * Math.PI * dt / 1000
+
+    gl.clear(gl.COLOR_BUFFET_BIT | gl.DEPTH_BUFFER_BIT)
+
+    mat4.identity(transform)
+    mat4.fromYRotation(model, angle)
+    mat4.lookAt(view, eye, center, up)
+    mat4.perspective(projection, Math.PI / 4,  canvas.width / canvas.height, 0.1, 10)
+    mat4.multiply(transform, transform, projection)
+    mat4.multiply(transform, transform, view)
+    mat4.multiply(transform, transform, model)
+
+    gl.uniform3f(colorLocation, 0, 0, 1)
+    gl.uniformMatrix4fv(transformLocation, gl.FALSE, transform)
+
+    gl.drawArrays(gl.TRIANGLES, 0, data.length / 6)
+
+    window.requestAnimationFrame(render)
+  }
+
+  render()
+</script>
