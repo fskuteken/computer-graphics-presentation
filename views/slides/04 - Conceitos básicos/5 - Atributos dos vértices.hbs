@@ -1,6 +1,6 @@
 <div class="flex-container">
-  <h1>Vertices</h1>
-  <p>Vertices represents points in space:</p>
+  <h1>Atributos dos vértices</h1>
+  <p>Além da posição, vértices podem ter outros atributos. Exemplo: cores</p>
   <div class="flex-item">
     <canvas id="canvas" class="fill"></canvas>
   </div>
@@ -9,17 +9,23 @@
 <script id="vertex-shader" type="x-shader/x-vertex">
 uniform mat4 mvpMatrix;
 attribute vec4 position;
+attribute vec4 color;
+varying vec4 vColor;
 
 void main () {
   gl_Position = mvpMatrix * position;
-  gl_PointSize = 10.0;
+  gl_PointSize = 20.0;
+  vColor = color;
 }
+
 </script>
 <script id="fragment-shader" type="x-shader/x-fragment">
 precision mediump float;
 
+varying vec4 vColor;
+
 void main () {
-  gl_FragColor = vec4(0.3, 0.3, 0.3, 1.0);
+  gl_FragColor = vColor;
 }
 </script>
 <script>
@@ -41,24 +47,27 @@ void main () {
   gl.linkProgram(program)
   gl.useProgram(program)
 
-  const positionLocation = 0
+  const positionLocation = gl.getAttribLocation(program, 'position')
+  const colorLocation = gl.getAttribLocation(program, 'color')
   const mvpLocation = gl.getUniformLocation(program, 'mvpMatrix')
 
   const buffer = gl.createBuffer()
   const vertices = new Float32Array([
-    -1, -1, -1,
-    -1, -1, 1,
-    -1, 1, -1,
-    -1, 1, 1,
-    1, -1, -1,
-    1, -1, 1,
-    1, 1, -1,
-    1, 1, 1
+    -1, -1, -1, Math.random(), Math.random(), Math.random(),
+    -1, -1, 1, Math.random(), Math.random(), Math.random(),
+    -1, 1, -1, Math.random(), Math.random(), Math.random(),
+    -1, 1, 1, Math.random(), Math.random(), Math.random(),
+    1, -1, -1, Math.random(), Math.random(), Math.random(),
+    1, -1, 1, Math.random(), Math.random(), Math.random(),
+    1, 1, -1, Math.random(), Math.random(), Math.random(),
+    1, 1, 1, Math.random(), Math.random(), Math.random()
   ])
   gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
   gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW)
   gl.enableVertexAttribArray(positionLocation)
-  gl.vertexAttribPointer(positionLocation, 3, gl.FLOAT, false, 0, 0);
+  gl.enableVertexAttribArray(colorLocation)
+  gl.vertexAttribPointer(positionLocation, 3, gl.FLOAT, gl.FALSE, 24, 0);
+  gl.vertexAttribPointer(colorLocation, 3, gl.FLOAT, gl.FALSE, 24, 12);
 
   const { vec3, mat4 } = glMatrix
 
@@ -94,7 +103,7 @@ void main () {
 
     gl.uniformMatrix4fv(mvpLocation, gl.FALSE, mvpMatrix)
 
-    gl.drawArrays(gl.POINTS, 0, vertices.length / 3);
+    gl.drawArrays(gl.POINTS, 0, vertices.length / 6);
 
     window.requestAnimationFrame(render)
   }

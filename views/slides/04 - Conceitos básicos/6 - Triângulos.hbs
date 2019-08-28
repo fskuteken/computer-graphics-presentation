@@ -1,6 +1,6 @@
 <div class="flex-container">
-  <h1>Vertices attributes</h1>
-  <p>Vertices can have attributes. Example: colors</p>
+  <h1>Triângulos</h1>
+  <p>Três vértices formam um triângulo</p>
   <div class="flex-item">
     <canvas id="canvas" class="fill"></canvas>
   </div>
@@ -14,7 +14,7 @@ varying vec4 vColor;
 
 void main () {
   gl_Position = mvpMatrix * position;
-  gl_PointSize = 10.0;
+  gl_PointSize = 20.0;
   vColor = color;
 }
 
@@ -53,14 +53,9 @@ void main () {
 
   const buffer = gl.createBuffer()
   const vertices = new Float32Array([
-    -1, -1, -1, Math.random(), Math.random(), Math.random(),
-    -1, -1, 1, Math.random(), Math.random(), Math.random(),
-    -1, 1, -1, Math.random(), Math.random(), Math.random(),
-    -1, 1, 1, Math.random(), Math.random(), Math.random(),
-    1, -1, -1, Math.random(), Math.random(), Math.random(),
-    1, -1, 1, Math.random(), Math.random(), Math.random(),
-    1, 1, -1, Math.random(), Math.random(), Math.random(),
-    1, 1, 1, Math.random(), Math.random(), Math.random()
+    -1, -1, 0, 0.3, 0.3, 0.3,
+    1, -1, 0, 0.3, 0.3, 0.3,
+    0, 1, 0, 0.3, 0.3, 0.3,
   ])
   gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
   gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW)
@@ -71,7 +66,7 @@ void main () {
 
   const { vec3, mat4 } = glMatrix
 
-  const eye = vec3.fromValues(3, 3, 3)
+  const eye = vec3.fromValues(0, 0, 2)
   const center = vec3.fromValues(0, 0, 0)
   const up = vec3.fromValues(0, 1, 0)
   const modelMatrix = mat4.create()
@@ -95,7 +90,7 @@ void main () {
 
     angle += 0.2 * 2 * Math.PI * deltaTime / 1000
 
-    mat4.fromYRotation(modelMatrix, angle)
+    mat4.fromZRotation(modelMatrix, angle)
     mat4.lookAt(viewMatrix, eye, center, up)
     mat4.perspective(projectionMatrix, Math.PI / 2, aspectRatio, 0.1, 10)
     mat4.multiply(mvpMatrix, projectionMatrix, viewMatrix)
@@ -103,6 +98,7 @@ void main () {
 
     gl.uniformMatrix4fv(mvpLocation, gl.FALSE, mvpMatrix)
 
+    gl.drawArrays(gl.TRIANGLES, 0, vertices.length / 6);
     gl.drawArrays(gl.POINTS, 0, vertices.length / 6);
 
     window.requestAnimationFrame(render)
