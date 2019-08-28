@@ -1,0 +1,26 @@
+<h1>Matriz de translação</h1>
+
+<p>Nós não conseguimos transladar um vetor 3D com uma matriz 3x3.</p>
+<p>Nós precisamos de uma coordenada homogênea:</p>
+
+<p class="math">
+  $
+  T \cdot \vec{u} =
+  \begin{bmatrix}
+    1 & 0 & 0 & t_x \\
+    0 & 1 & 0 & t_y \\
+    0 & 0 & 1 & t_z \\
+    0 & 0 & 0 & 1
+  \end{bmatrix}
+  \cdot
+  \begin{bmatrix}
+    u_x \\ u_y \\ u_z \\ 1
+  \end{bmatrix} =
+  \begin{bmatrix}
+    u_x + t_x \\
+    u_y + t_y \\
+    u_z + t_z \\
+    1
+  \end{bmatrix}
+  $
+</p>
