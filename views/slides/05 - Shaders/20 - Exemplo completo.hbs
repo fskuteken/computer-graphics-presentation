@@ -1,16 +1,17 @@
-<h1>Complete Example - Result</h1>
+<h1>Exemplo completo</h1>
 
-<canvas id="canvas" width="500" height="400"></canvas>
-
-<script id="vertex-shader" type="x-shader/x-vertex">
+<pre>
+  <code class="glsl">
   attribute vec3 position;
 
   void main() {
     gl_Position = vec4(position, 1.0);
   }
-</script>
+  </code>
+</pre>
 
-<script id="fragment-shader" type="x-shader/x-fragment">
+<pre>
+  <code class="glsl">
   precision mediump float;
 
   uniform vec4 color;
@@ -18,14 +19,17 @@
   void main() {
     gl_FragColor = color;
   }
-</script>
+  </code>
+</pre>
 
-<script>
+<pre>
+  <code class="javascript">
   const canvas = document.getElementById('canvas')
   const gl = canvas.getContext('webgl')
 
   const vertexShaderSource = document.getElementById('vertex-shader').text
   const fragmentShaderSource = document.getElementById('fragment-shader').text
+
 
   // Creating the program
   const program = gl.createProgram()
@@ -64,4 +68,5 @@
 
   // Rendering
   gl.drawArrays(gl.TRIANGLES, 0, vertices.length / 3)
-</script>
+  </code>
+</pre>
