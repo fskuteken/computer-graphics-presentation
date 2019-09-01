@@ -8,6 +8,9 @@
   const fragmentShaderSource =
     document.getElementById('fragment-shader').text
 
+  const vertexShader = gl.createShader(gl.VERTEX_SHADER)
+  const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER)
+
   gl.shaderSource(vertexShader, vertexShaderSource)
   gl.compileShader(vertexShader)
 
