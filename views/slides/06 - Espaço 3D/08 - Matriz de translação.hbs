@@ -1,4 +1,4 @@
-<h1>Projeção em perspectiva</h1>
+<h1>Matrix de translação</h1>
 
 <canvas id="canvas" width="800" height="500"></canvas>
 
@@ -32,9 +32,11 @@
 </script>
 
 <script>
-  const options = { fieldOfView: Math.PI / 4 }
+  const options = { x: 0, y: 0, z: 0 }
   const gui = new dat.GUI()
-  gui.add(options, 'fieldOfView', 0, Math.PI, 0.01)
+  gui.add(options, 'x', -1, 1, 0.01)
+  gui.add(options, 'y', -1, 1, 0.01)
+  gui.add(options, 'z', -1, 1, 0.01)
 
   const { vec3, mat4 } = glMatrix
   const canvas = document.getElementById('canvas')
@@ -136,20 +138,18 @@
     const aspectRatio = canvas.width / canvas.height;
 
     mat4.lookAt(view, eye, center, up)
-    mat4.perspective(projection, options.fieldOfView,  canvas.width / canvas.height, 0.1, 10)
+    mat4.perspective(projection, Math.PI / 4,  canvas.width / canvas.height, 0.1, 10)
 
-    for (let i = -1; i < 2; i += 1) {
-      mat4.identity(transform)
-      mat4.fromTranslation(model, [0, 0, i * s * 3])
-      mat4.multiply(transform, transform, projection)
-      mat4.multiply(transform, transform, view)
-      mat4.multiply(transform, transform, model)
+    mat4.identity(transform)
+    mat4.fromTranslation(model, [options.x, options.y, options.z])
+    mat4.multiply(transform, transform, projection)
+    mat4.multiply(transform, transform, view)
+    mat4.multiply(transform, transform, model)
 
-      gl.uniform3f(colorLocation, 0.2, 0.4, 0.8)
-      gl.uniformMatrix4fv(transformLocation, gl.FALSE, transform)
+    gl.uniform3f(colorLocation, 0.2, 0.4, 0.8)
+    gl.uniformMatrix4fv(transformLocation, gl.FALSE, transform)
 
-      gl.drawArrays(gl.TRIANGLES, 0, data.length / 6)
-    }
+    gl.drawArrays(gl.TRIANGLES, 0, data.length / 6)
 
     window.requestAnimationFrame(render)
   }

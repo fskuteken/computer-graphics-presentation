@@ -1,16 +1,17 @@
-<h1>Projeção em perspectiva</h1>
+<h1>Matrix de rotação</h1>
 
 <canvas id="canvas" width="800" height="500"></canvas>
 
 <script id="vertex-shader" type="x-shader/x-vertex">
   uniform mat4 transform;
+  uniform mat4 inverseTranspose;
   attribute vec4 position;
   attribute vec3 normal;
   varying vec3 vNormal;
 
   void main() {
     gl_Position = transform * position;
-    vNormal = normal;
+    vNormal = mat3(inverseTranspose) * normal;
   }
 </script>
 
@@ -32,9 +33,11 @@
 </script>
 
 <script>
-  const options = { fieldOfView: Math.PI / 4 }
+  const options = { x: 0, y: 0, z: 0 }
   const gui = new dat.GUI()
-  gui.add(options, 'fieldOfView', 0, Math.PI, 0.01)
+  gui.add(options, 'x', -Math.PI, Math.PI, 0.01)
+  gui.add(options, 'y', -Math.PI, Math.PI, 0.01)
+  gui.add(options, 'z', -Math.PI, Math.PI, 0.01)
 
   const { vec3, mat4 } = glMatrix
   const canvas = document.getElementById('canvas')
@@ -114,12 +117,19 @@
   // Settings the uniform
   const transformLocation = gl.getUniformLocation(program, 'transform')
   const colorLocation = gl.getUniformLocation(program, 'color')
+  const inverseTransposeLocation = gl.getUniformLocation(program, 'inverseTranspose')
 
   const transform = mat4.create()
+
+  const rotationX = mat4.create()
+  const rotationY = mat4.create()
+  const rotationZ = mat4.create()
 
   const model = mat4.create()
   const view = mat4.create()
   const projection = mat4.create()
+
+  const inverseTranspose = mat4.create()
 
   const eye = vec3.fromValues(1, 1, 1)
   const center = vec3.fromValues(0, 0, 0)
@@ -136,20 +146,28 @@
     const aspectRatio = canvas.width / canvas.height;
 
     mat4.lookAt(view, eye, center, up)
-    mat4.perspective(projection, options.fieldOfView,  canvas.width / canvas.height, 0.1, 10)
+    mat4.perspective(projection, Math.PI / 4,  canvas.width / canvas.height, 0.1, 10)
 
-    for (let i = -1; i < 2; i += 1) {
-      mat4.identity(transform)
-      mat4.fromTranslation(model, [0, 0, i * s * 3])
-      mat4.multiply(transform, transform, projection)
-      mat4.multiply(transform, transform, view)
-      mat4.multiply(transform, transform, model)
+    mat4.identity(transform)
+    mat4.identity(model)
+    mat4.fromXRotation(rotationX, options.x)
+    mat4.fromYRotation(rotationY, options.y)
+    mat4.fromZRotation(rotationZ, options.z)
+    mat4.multiply(model, model, rotationX)
+    mat4.multiply(model, model, rotationY)
+    mat4.multiply(model, model, rotationZ)
+    mat4.multiply(transform, transform, projection)
+    mat4.multiply(transform, transform, view)
+    mat4.multiply(transform, transform, model)
 
-      gl.uniform3f(colorLocation, 0.2, 0.4, 0.8)
-      gl.uniformMatrix4fv(transformLocation, gl.FALSE, transform)
+    mat4.invert(inverseTranspose, model)
+    mat4.transpose(inverseTranspose, inverseTranspose)
 
-      gl.drawArrays(gl.TRIANGLES, 0, data.length / 6)
-    }
+    gl.uniform3f(colorLocation, 0.2, 0.4, 0.8)
+    gl.uniformMatrix4fv(transformLocation, gl.FALSE, transform)
+    gl.uniformMatrix4fv(inverseTransposeLocation, gl.FALSE, inverseTranspose)
+
+    gl.drawArrays(gl.TRIANGLES, 0, data.length / 6)
 
     window.requestAnimationFrame(render)
   }
